@@ -1,4 +1,8 @@
-# Chapter 3 / ANN
+---
+description: Binary Classification
+---
+
+# Chapter 3 / Artificial Neural Net
 
 ## Tensors
 
@@ -91,5 +95,27 @@ $$
 
 train 모드로 변경한 후, 
 
-모델에 데이터를 넣어 output계산, loss를 계산, loss를 backpropagation, optimizer으로 parameter에 저장된 gradient를 이용해 최적화 - 를 반혹한다. 
+모델에 데이터를 넣어 output계산, loss를 계산, loss를 backpropagation, optimizer으로 parameter에 저장된 gradient를 이용해 최적화 - 를 반복한다. 
+
+3장의 ANN은 XOR 이진 분류라고 볼 수 있다. 하나의 linear 구분으로 분류할 수 없어 여러 층을 사용한다. 
+
+### BCE
+
+Binary Cross Entropy는 Cross Entropy의 특수한 경우\(확률분포함수가 scalar값이고, 이진으로 분류할 때\) 이다. Cross Entropy는 동일한 Event Space\(여기선 Sample Space의 원소가 2개라 볼 수 있으므로 Event Space는 {O, X}\)에서 다른 두 확률분포\(여기선 데이터의 분포와 예측의 분포\)의 정보량 차이를 계산한다.
+
+$$
+CE=-\sum_{i=0}^Np(x_i)\log(q(x_i))
+$$
+
+3장의 모델에서 예측하는 것은 두 클래스 중 하나의 클래스에 대해 속할 확률이므로 하나의 확률 값을 가지며 확률질량함수는 y, 1-y 로 각 클래스에 할당된다고 볼 수 있다. 그러면 BCE는
+
+$$
+BCE=-(y\log (\hat y)+(1-y)\log(1-\hat y))
+$$
+
+ y는 참값\(주어진 데이터\), \hat y는 예측값이다.
+
+## Reuse Parameter/Model
+
+모델 학습 후 파라미터를 저장했다가 다시 사용할 수 있다. `torch.save(model.statedict(),'filename')` 으로 저장 후, `model.load_state_dict(torch.load('filename'))` 으로 restore 할 수 있다.
 
