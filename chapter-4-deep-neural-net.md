@@ -63,33 +63,33 @@ batch size = 64, epochs = 30으로 설정, Optimizer는 SGD\(Stochastic Gradient
 
 ```python
 def train(model, train_loader, optimizer):
-    model.train()
-    for batch_idx, (data, target) in enumerate(train_loader):
-        data, target = data.to(DEVICE), target.to(DEVICE)
-        optimizer.zero_grad()
-        output = model(data)
-        loss = F.cross_entropy(output,target)
-        loss.backward()
-        optimizer.step()
+    model.train() #모드 변경
+    for batch_idx, (data, target) in enumerate(train_loader): #모든 미니배치 반복
+        data, target = data.to(DEVICE), target.to(DEVICE) #데이터 이동
+        optimizer.zero_grad() #grad 초기화
+        output = model(data) #forward propagation
+        loss = F.cross_entropy(output,target) # loss 계산
+        loss.backward() #gradient 계산
+        optimizer.step() #optimize
 
 def evaluate(model, test_loader):
-    model.eval()
+    model.eval() #모드 변경
     test_loss = 0
     correct = 0
-    with torch.no_grad():
+    with torch.no_grad(): #gradient 계산 안하는 scope
         for data, target in test_loader:
             data,target = data.to(DEVICE), target.to(DEVICE)
-            output = model(data)
-            test_loss += F.cross_entropy(output,target,reduction='sum').item()
-            pred = output.max(1,keepdim=True)[1]
-            correct += pred.eq(target.view_as(pred)).sum().item()
+            output = model(data) 
+            test_loss += F.cross_entropy(output,target,reduction='sum').item() #reduction='sum'으로 배치 원소들의 합 구하기
+            pred = output.max(1,keepdim=True)[1] #index 구하기(argmax)
+            correct += pred.eq(target.view_as(pred)).sum().item() # view_as로 모양 일치, 모든 배치 원소에 대해 일치하면 1, 모두 합하기
     test_loss /= len(test_loader.dataset)
     test_accuracy = 100. * correct / len(test_loader.dataset)
     return test_loss, test_accuracy
     
 for epoch in range(1,EPOCHS+1):
-    train(model,train_loader,optimizer)
-    test_loss, test_accuracy = evaluate(model,test_loader)
+    train(model,train_loader,optimizer) #train
+    test_loss, test_accuracy = evaluate(model,test_loader) #test
     print(f'{epoch} Test Loss: {test_loss:.4f}, Accuracy: {test_accuracy:.2f}')
 ```
 
