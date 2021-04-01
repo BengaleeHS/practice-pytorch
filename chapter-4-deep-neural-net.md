@@ -93,3 +93,35 @@ for epoch in range(1,EPOCHS+1):
     print(f'{epoch} Test Loss: {test_loss:.4f}, Accuracy: {test_accuracy:.2f}')
 ```
 
+학습 과정은 다음과 같다.
+
+1. data와 target을 GPU\(CPU\)로 이동
+2. optimizer의 gradient를 초기화
+3. data에 대한 model의 출력 연산
+4. output에 대한 target과의 loss 계산
+5. loss를 역미분해 gradient 할당
+6. optimizer에 할당된 parameter들의 계산된 gradient를 적용
+
+평가 방법은 다음과 같다.
+
+1. data와 target을 GPU\(CPU\)로 이동
+2. data에 대한 model의 출력 연산
+3. 출력과 target의 loss 계산, 모든 batch에 대해 합함
+4. 출력의 argmax를 구해 얼마나 많이 정답을 맞혔는지 연산
+
+
+
+## Data Augmentation
+
+이미지를 무작위로 뒤집어 데이터셋의 크기를 늘려 학습을 더 잘 할 수 있게 만든다. 본 챕터에서 RandomHorizontalFlip을 transform에 추가해 데이터를 늘린다.
+
+## Dropout
+
+과적합은 적은 데이터에 대해 예측이 학습 오차를 줄이는 데 과하게 학습하고 실제 일반적 데이터에 대해선 일반화하지 못하는 경우를 말한다. train loss는 계속 줄어들지만, validation loss는 증가하는 시점이 있는데, 이 시점에서 학습을 종료해야 적절한 예측을 얻을 수 있다.
+
+dropout은 신경망에서 다음 layer로 이동할 때 일정 확률로 node가 없는 것처럼 이동한다. 계산한 결과에서 일부 node의 결과를 일정 확률로 제거해 과적합을 방지한다. 
+
+간단히 dropout 함수를 거침으로써 사용할 수 있다.
+
+
+
