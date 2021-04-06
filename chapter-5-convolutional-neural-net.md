@@ -51,5 +51,9 @@ Epoch = 40 / Batch size = 64
 
 loss function은 Cross Entropy를 사용한다. Optimizer는 SGD에 momentum을 적용해 사용한다. learning rate는 0.01, momentum은 0.5이다.
 
+#### **중요: 해당 챕터의 결과는 MNIST를 사용하지만, 설명은 FashionMNIST를 사용하는 것으로 나와있다. 필자의 착오로 인해 잘못 쓴 것 같다. FashoinMNIST를 사용하면 책 저자의 코드로도 99%가 나오지 않는다.** 
+
+
+
 
 
