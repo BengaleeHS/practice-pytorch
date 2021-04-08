@@ -53,13 +53,35 @@ DEVICE = torch.device('cuda' if USE_CUDA else 'cpu')
 
 `model.to(DEVICE)` 를 통해 CUDA를 사용할 수 있음
 
+`torch.nn.Module` 로부터 서브클래싱해 만든 모델이다. nn.Module을 사용하면 직관적으로 커스텀 모델을 만들 수 있다.
 
+```python
+class Net(nn.Module):
+    def __init__(self):
+        super(Net,self).__init__()
+        self.fc1 = nn.Linear(784,256)
+        self.fc2 = nn.Linear(256,128)
+        self.fc3 = nn.Linear(128,10)
+
+    def forward(self,x):
+        x = x.view(-1,784)
+        x = F.relu(self.fc1(x))
+        x = F.relu(self.fc2(x))
+        x = self.fc3(x)
+        return x
+```
 
 ## Optimization
 
-batch size = 64, epochs = 30으로 설정, Optimizer는 SGD\(Stochastic Gradient Descent\), Learning rate는 0.01로 설정, loss function은 Cross Entropy를 사용
+| 항목 |  값 |
+| :--- | :--- |
+| Epochs | 30 |
+| Batch Size | 64 |
+| Loss Function | Cross Entropy |
+| Optimizer | SGD |
+| Learning Rate | 0.01 |
 
-다음 코드는 train, evaluate 
+다음 코드는 train, evaluate 부분아다.
 
 ```python
 def train(model, train_loader, optimizer):

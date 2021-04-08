@@ -45,9 +45,16 @@ class CNN(nn.Module):
         return x
 ```
 
-### Hyperparameters
+### Hyperparameters & etc.
 
-Epoch = 40 / Batch size = 64 
+| 항목 | 값 |
+| :--- | :--- |
+| Epochs | 40 |
+| Batch Size | 64 |
+| Loss Function | Catecorical Cross Entropy |
+| Optimizer | SGD |
+| Learning Rate | 0.01 |
+| Momentum | 0.5 |
 
 loss function은 Cross Entropy를 사용한다. Optimizer는 SGD에 momentum을 적용해 사용한다. learning rate는 0.01, momentum은 0.5이다.
 
